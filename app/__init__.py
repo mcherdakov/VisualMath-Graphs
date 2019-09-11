@@ -1,11 +1,14 @@
 from flask import Flask
+from engineio.async_drivers import gevent
 from config import Config
 from flask_sqlalchemy import SQLAlchemy
 from flask_migrate import Migrate
 from flask_login import LoginManager
 from flask_bootstrap import Bootstrap
+from flask_socketio import SocketIO
 
 app = Flask(__name__)
+sio = SocketIO(app, async_mode='eventlet')
 app.config.from_object(Config)
 db = SQLAlchemy(app)
 migrate = Migrate(app, db)
@@ -14,3 +17,5 @@ login.login_view = 'login'
 bootstrap = Bootstrap(app)
 
 from app import routes, models
+#if __name__  == '__main__':
+#    sio.run(app)
