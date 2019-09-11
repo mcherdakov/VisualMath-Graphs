@@ -1,6 +1,33 @@
 <!DOCTYPE html>
-<html lang="en">
-    <body>
-        <h1> Test 2 </h2>
-    </body>
-</html>`
+<html>
+<head lang="en">
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+    <script src="{{ url_for('static', filename='js/socketio.js')}}"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        namespace = '/flask';
+        var sio = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace); 
+        sio.on('data', function(msg) {
+            point.setX(msg.x);
+            point.setY(msg.y);
+            point.setColor(msg.color);
+        });
+    });
+    </script>
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form>
+    <input type="button" id="addButred" value="Красный">
+    <input type="button" id="addButblack" value="Черный">
+    <input type="button" id="addButgreen" value="Зеленый">
+   
+    
+<div id="plot"></div>
+    <script src="{{ url_for('static', filename='dist/js/plot.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='script/point.js')}}"></script>
+</form>  
+</body>
+</html>

@@ -1,9 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
-    <head>
-        <title>Some title</title>
-    </head>
-    <body>
-        Some body
-    </body>
+<head>
+    <script src="{{ url_for('static', filename='js/jquery.js')}}"></script>
+     <script src="{{ url_for('static', filename='js/socketio.js')}}"></script>
+    <script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        namespace = '/flask';
+        var x = 1, y = 1;
+        var sio = io.connect(location.protocol + '//' + document.domain + ':' + location.port + namespace);
+        var but11 = document.getElementById("addButred");
+        but1.onclick = point_in_red1;
+        var but22 = document.getElementById("addButblack");
+        but2.onclick = point_in_black1;
+        var but33 = document.getElementById("addButgreen");
+        but3.onclick = point_in_green1;
+
+        function point_in_red1() {
+            point.setColor(6);
+            sio.emit('color', {'color':6, 'x':point.getX(), 'y':point.getY()});
+        }
+
+        function point_in_black1() {
+            point.setColor(20);
+            sio.emit('color', {'color':20, 'x':point.getX(), 'y':point.getY()});
+        }
+
+        function point_in_green1() {
+            point.setColor(4);
+           sio.emit('color', {'color':4, 'x':point.getX(), 'y':point.getY()}) 
+        }
+        point.onMove = a;
+        function a(x, y) {
+            sio.emit('color', {'color':point.getColor(), 'x':x, 'y':y});
+        }
+    });
+    </script>
+        <meta charset="UTF-8">
+    <title></title>
+</head>
+<body>
+
+<form>
+    <input type="button" id="addButred" value="Красный">
+    <input type="button" id="addButblack" value="Черный">
+    <input type="button" id="addButgreen" value="Зеленый">
+
+
+<div id="plot"></div>
+    <script src="{{ url_for('static', filename='dist/js/plot.min.js')}}"></script>
+    <script src="{{ url_for('static', filename='script/point.js')}}"></script>
+</form>
+</body>
+
 </html>
+
